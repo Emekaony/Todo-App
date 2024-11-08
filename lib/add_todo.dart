@@ -21,10 +21,13 @@ class _AddTodoState extends State<AddTodo> {
         TextField(
           controller: todoText, // sync this to the controller
           decoration: InputDecoration(hintText: "enter a task..."),
+          autocorrect: false,
         ),
         ElevatedButton(
-          // just call this function when the add button is pressed!
-          onPressed: () => widget.onTextChanged(todoText.text),
+          onPressed: () {
+            widget.onTextChanged(todoText.text);
+            todoText.text = "";
+          },
           child: Text("Add"),
         )
       ],
