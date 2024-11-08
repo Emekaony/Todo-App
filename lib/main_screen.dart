@@ -13,12 +13,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     // so inside the screens we ise Scaffold
     return Scaffold(
+      drawer: Drawer(),
       appBar: AppBar(
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: Icon(
-              FeatherIcons.camera,
+              FeatherIcons.plus,
               color: Colors.red,
             ),
           )
