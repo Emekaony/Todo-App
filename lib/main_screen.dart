@@ -75,7 +75,22 @@ class _MainScreenState extends State<MainScreen> {
         itemBuilder: (BuildContext context, int idx) {
           return ListTile(
             onTap: () {
-              print("Clicked item in index: $idx");
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(20),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              todoList.removeAt(idx);
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text("Mark as Done")),
+                    );
+                  });
             },
             leading: Icon(FeatherIcons.briefcase),
             trailing: Icon(FeatherIcons.activity),
