@@ -11,6 +11,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     // so inside the screens we ise Scaffold
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Todo App"),
+      ),
+    );
   }
 }
