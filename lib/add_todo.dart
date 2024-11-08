@@ -1,17 +1,29 @@
 import "package:flutter/material.dart";
 
 class AddTodo extends StatefulWidget {
-  AddTodo({required this.onTextChanged, super.key});
+  AddTodo({required this.addTodo, super.key});
   // callback that signifies that something has changed!
-  final ValueChanged<String> onTextChanged;
+  final ValueChanged<String> addTodo;
 
   @override
   State<AddTodo> createState() => _AddTodoState();
 }
 
 class _AddTodoState extends State<AddTodo> {
-  TextEditingController todoText = TextEditingController();
-  // String textToChange = "";
+  final TextEditingController _todoText = TextEditingController();
+  String _hintText = "enter a task...";
+
+  void onAddPressed(String todo) {
+    if (todo.trim().isEmpty) {
+      setState(() {
+        _hintText = "you must enter an item...";
+        _todoText.selection = TextSelection.collapsed(offset: 0);
+      });
+    } else {
+      widget.addTodo(todo);
+      _todoText.text = "";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +31,13 @@ class _AddTodoState extends State<AddTodo> {
       children: [
         Text("Add Todo"),
         TextField(
-          controller: todoText, // sync this to the controller
-          decoration: InputDecoration(hintText: "enter a task..."),
+          controller: _todoText, // sync this to the controller
+          decoration: InputDecoration(hintText: _hintText),
           autocorrect: false,
         ),
         ElevatedButton(
           onPressed: () {
-            widget.onTextChanged(todoText.text);
-            todoText.text = "";
+            onAddPressed(_todoText.text);
           },
           child: Text("Add"),
         )

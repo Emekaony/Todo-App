@@ -10,12 +10,22 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String text = "";
+  List<String> todoList = [
+    "Drink Water",
+    "Gym",
+    "Mop House",
+    "Be great",
+    "Write Software",
+    "Get a job",
+    "Solve very difficult problems"
+  ];
 
-  void handleTextChanged(String newText) {
+  void handleTodoChanged(String todo) {
     setState(() {
-      text = newText;
+      todoList.insert(0, todo);
     });
+    // this pops the most recent screen, pretty cool
+    Navigator.pop(context);
   }
 
   @override
@@ -33,25 +43,26 @@ class _MainScreenState extends State<MainScreen> {
             borderRadius: BorderRadius.circular(10),
             onTap: () {
               showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return Padding(
-                      padding: MediaQuery.of(context).viewInsets,
-                      child: Container(
-                        height: 200,
-                        padding: EdgeInsets.all(10.0),
-                        child: AddTodo(
-                          onTextChanged: handleTextChanged,
-                        ),
+                context: context,
+                builder: (context) {
+                  return Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: Container(
+                      height: 200,
+                      padding: EdgeInsets.all(10.0),
+                      child: AddTodo(
+                        addTodo: handleTodoChanged,
                       ),
-                    );
-                  });
+                    ),
+                  );
+                },
+              );
             },
             child: Padding(
               padding: EdgeInsets.only(right: 10),
               child: Icon(
                 FeatherIcons.plus,
-                color: Colors.red,
+                color: Colors.black,
               ),
             ),
           )
@@ -59,8 +70,18 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
         title: const Text("Todo App"),
       ),
-      body: Container(
-        child: Text(text),
+      body: ListView.builder(
+        itemCount: todoList.length,
+        itemBuilder: (BuildContext context, int idx) {
+          return ListTile(
+            onTap: () {
+              print("Clicked item in index: $idx");
+            },
+            leading: Icon(FeatherIcons.briefcase),
+            trailing: Icon(FeatherIcons.activity),
+            title: Text(todoList[idx]),
+          );
+        },
       ),
     );
   }
