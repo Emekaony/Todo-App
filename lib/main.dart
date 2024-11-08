@@ -16,8 +16,9 @@ class TodoApp extends StatefulWidget {
 class _TodoAppState extends State<TodoApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MainScreen(),
+    return MaterialApp(
+      theme: ThemeData.light(useMaterial3: true),
+      home: const MainScreen(),
     );
   }
 }
