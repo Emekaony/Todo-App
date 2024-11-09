@@ -31,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void loadLocalData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    todoList = prefs.getStringList("todoList") ?? [];
+    todoList = (prefs.getStringList("todoList") ?? []).toList();
   }
 
   @override
