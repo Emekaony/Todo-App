@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:feather_icons/feather_icons.dart";
 import "package:flutter_app_one/add_todo.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -10,22 +11,33 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<String> todoList = [
-    "Drink Water",
-    "Gym",
-    "Mop House",
-    "Be great",
-    "Write Software",
-    "Get a job",
-    "Solve very difficult problems"
-  ];
+  late List<String> todoList;
 
   void handleTodoChanged(String todo) {
     setState(() {
       todoList.insert(0, todo);
     });
+    updateLocalData();
     // this pops the most recent screen, pretty cool
     Navigator.pop(context);
+  }
+
+  void updateLocalData() async {
+// Obtain shared preferences.
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+// Save an list of strings to 'items' key.
+    await prefs.setStringList('todoList', todoList);
+  }
+
+  void loadLocalData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    todoList = prefs.getStringList("todoList") ?? [];
+  }
+
+  @override
+  void initState() {
+    loadLocalData();
+    super.initState();
   }
 
   @override
@@ -86,6 +98,8 @@ class _MainScreenState extends State<MainScreen> {
                             setState(() {
                               todoList.removeAt(idx);
                             });
+                            // also update sharedPreferences when data is removed from the list
+                            updateLocalData();
                             Navigator.pop(context);
                           },
                           child: Text("Mark as Done")),
