@@ -11,7 +11,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late List<String> todoList;
+  List<String> todoList = [];
 
   void handleTodoChanged(String todo) {
     setState(() {
